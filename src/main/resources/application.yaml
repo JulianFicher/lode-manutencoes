@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: lode-manutencoes
+  datasource:
+    url: jdbc:postgresql://localhost:5432/lode_db
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
