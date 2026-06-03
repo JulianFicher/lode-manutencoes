@@ -3,6 +3,7 @@ package com.lode.lodemanutencoes.service;
 import com.lode.lodemanutencoes.model.Equipment;
 import com.lode.lodemanutencoes.repository.EquipmentRepository;
 import jakarta.validation.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,50 +27,51 @@ public class EquipmentServiceTest {
     @InjectMocks
     private EquipmentService service;
 
+    private Equipment equipment;
+
+    @BeforeEach
+    void setup() {
+        equipment = new Equipment();
+        equipment.setName("Painel");
+        equipment.setType("Painel");
+        equipment.setStatus("Crítico");
+        equipment.setInstallationDate(LocalDate.of(2026, 6, 10));
+    }
+
     @Test
     void shouldSaveEquipmentSuccessfully() {
-        Equipment equipmentuipment = new Equipment();
-        equipmentuipment.setName("Tubulação Padrão");
-        equipmentuipment.setType("Tubulacao");
-        equipmentuipment.setStatus("Operacional");
-        equipmentuipment.setInstallationDate(LocalDate.now());
+        when(repository.save(any())).thenReturn(equipment);
 
-        when(repository.save(any())).thenReturn(equipmentuipment);
-
-        Equipment result = service.save(equipmentuipment);
+        Equipment result = service.save(equipment);
 
         assertNotNull(result);
-        assertEquals("Tubulação Padrão", result.getName());
-        verify(repository, times(1)).save(equipmentuipment);
+        assertEquals("Painel", result.getName());
+        verify(repository, times(1)).save(equipment);
     }
 
     @Test
     void shouldFindEquipmentByName() {
-        Equipment equipmentuipment = new Equipment();
-        equipmentuipment.setName("Bomba");
+        equipment.setName("Bomba");
 
         when(repository.findByName("bomba"))
-                .thenReturn(List.of(equipmentuipment));
+                .thenReturn(List.of(equipment));
 
-        List<Equipment> resultado = service.findByName("bomba");
+        List<Equipment> result = service.findByName("bomba");
 
-        assertEquals(1, resultado.size());
-        assertEquals("Bomba", resultado.get(0).getName());
+        assertEquals(1, result.size());
+        assertEquals("Bomba", result.get(0).getName());
     }
 
     @Test
     void shouldThrowExceptionWhenTryToSaveEquipmentWithoutName() {
-        Equipment equipment = new Equipment();
         equipment.setName("");
-        equipment.setType("Bomba");
-        equipment.setStatus("Operacional");
-        equipment.setInstallationDate(LocalDate.now());
 
         assertThrows(ConstraintViolationException.class, () -> {
             ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
             Validator validator = factory.getValidator();
             Set<ConstraintViolation<Equipment>> violations = validator.validate(equipment);
-            if (!violations.isEmpty()) {
+            boolean hasViolations = !violations.isEmpty();
+            if (hasViolations) {
                 throw new ConstraintViolationException(violations);
             }
         });
