@@ -34,7 +34,7 @@ public class EquipmentServiceTest {
         equipment = new Equipment();
         equipment.setName("Painel");
         equipment.setType("Painel");
-        equipment.setStatus("Crítico");
+        equipment.setStatus("Manutenção Necessária");
         equipment.setInstallationDate(LocalDate.of(2026, 6, 10));
     }
 
@@ -63,6 +63,20 @@ public class EquipmentServiceTest {
     }
 
     @Test
+    void shouldUpdateEquipmentStatusSuccessfully() {
+        equipment.setStatus("Manutenção Necessária");
+
+        when(repository.findById(1L)).thenReturn(Optional.of(equipment));
+        // retorna o objeto com status atualizado:
+        when(repository.save(any())).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Equipment result = service.update(1L, equipment);
+
+        assertEquals("Manutenção Necessária", result.getStatus());
+        verify(repository, times(1)).save(any());
+    }
+
+    @Test
     void shouldThrowExceptionWhenTryToSaveEquipmentWithoutName() {
         equipment.setName("");
 
@@ -78,7 +92,7 @@ public class EquipmentServiceTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenNotFoundEquipment() {
+    void shouldThrowExceptionWhenNotFoundEquipmentById() {
         var notRegisteredId = 9999L;
         when(repository.findById(notRegisteredId)).thenReturn(Optional.empty());
 
