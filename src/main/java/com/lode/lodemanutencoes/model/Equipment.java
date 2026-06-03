@@ -3,9 +3,13 @@ package com.lode.lodemanutencoes.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Data;
+
 import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Setter;
 
 @Data
 @Entity
@@ -13,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Equipment {
 
     @Id
+    @Setter(AccessLevel.NONE)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
