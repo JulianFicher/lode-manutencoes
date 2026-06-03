@@ -25,13 +25,15 @@ public class Equipment {
     @Column(nullable = false)
     private String name;
 
-    @NotBlank(message = "The type of equipment is mandatory.")
-    private String type;
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "The type of equipment is mandatory.")
+    private EquipmentType type;
 
     @NotNull(message = "Installation date is required.")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate installationDate;
 
-    @NotBlank(message = "Status is required.")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Status is required.")
+    private EquipmentStatus status;
 }
