@@ -9,10 +9,10 @@
       <label>Tipo</label>
       <select v-model="form.type">
         <option value="">Selecione...</option>
-        <option>Bomba</option>
-        <option>Painel</option>
-        <option>Tubulação</option>
-        <option>Sensor</option>
+        <option value="BOMBA">Bomba</option>
+        <option value="PAINEL">Painel</option>
+        <option value="TUBULACAO">Tubulação</option>
+        <option value="SENSOR">Sensor</option>
       </select>
 
       <label>Data de Instalação</label>
@@ -34,9 +34,9 @@
       <label>Status</label>
       <select v-model="form.status">
         <option value="">Selecione...</option>
-        <option>Operacional</option>
-        <option>Manutenção Necessária</option>
-        <option>Crítico</option>
+        <option value="OPERACIONAL">Operacional</option>
+        <option value="MANUTENCAO_NECESSARIA">Manutenção Necessária</option>
+        <option value="CRITICO">Crítico</option>
       </select>
 
       <div class="modal-actions">

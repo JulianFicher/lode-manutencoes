@@ -1,6 +1,8 @@
 package com.lode.lodemanutencoes.service;
 
 import com.lode.lodemanutencoes.model.Equipment;
+import com.lode.lodemanutencoes.model.EquipmentStatus;
+import com.lode.lodemanutencoes.model.EquipmentType;
 import com.lode.lodemanutencoes.repository.EquipmentRepository;
 import jakarta.validation.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,8 +35,8 @@ public class EquipmentServiceTest {
     void setup() {
         equipment = new Equipment();
         equipment.setName("Painel");
-        equipment.setType("Painel");
-        equipment.setStatus("Manutenção Necessária");
+        equipment.setType(EquipmentType.PAINEL);
+        equipment.setStatus(EquipmentStatus.MANUTENCAO_NECESSARIA);
         equipment.setInstallationDate(LocalDate.of(2026, 6, 10));
     }
 
@@ -64,7 +66,7 @@ public class EquipmentServiceTest {
 
     @Test
     void shouldUpdateEquipmentStatusSuccessfully() {
-        equipment.setStatus("Manutenção Necessária");
+        equipment.setStatus(EquipmentStatus.OPERACIONAL);;
 
         when(repository.findById(1L)).thenReturn(Optional.of(equipment));
         // retorna o objeto com status atualizado:
@@ -72,8 +74,15 @@ public class EquipmentServiceTest {
 
         Equipment result = service.update(1L, equipment);
 
-        assertEquals("Manutenção Necessária", result.getStatus());
+        assertEquals(EquipmentStatus.OPERACIONAL, result.getStatus());
         verify(repository, times(1)).save(any());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenTypeIsInvalid() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            EquipmentType.valueOf("TIPO_INVALIDO");
+        });
     }
 
     @Test

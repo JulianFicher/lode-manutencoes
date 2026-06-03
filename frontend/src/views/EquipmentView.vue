@@ -14,9 +14,9 @@
       />
       <select v-model="filtroStatus" class="select-status">
         <option value="">Todos os status</option>
-        <option>Operacional</option>
-        <option>Manutenção Necessária</option>
-        <option>Crítico</option>
+        <option value="OPERACIONAL">Operacional</option>
+        <option value="MANUTENCAO_NECESSARIA">Manutenção Necessária</option>
+        <option value="CRITICO">Crítico</option>
       </select>
     </div>
 

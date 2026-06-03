@@ -23,9 +23,9 @@ defineEmits(['editar', 'deletar'])
 import { computed } from 'vue'
 
 const statusClass = computed(() => ({
-  'status-operacional': props.equipment.status === 'Operacional',
-  'status-manutencao':  props.equipment.status === 'Manutenção Necessária',
-  'status-critico':     props.equipment.status === 'Crítico'
+  'status-operacional': props.equipment.status === 'OPERACIONAL',
+  'status-manutencao': props.equipment.status === 'MANUTENCAO_NECESSARIA',
+  'status-critico': props.equipment.status === 'CRITICO'
 }))
 
 function formatarData(data) {
