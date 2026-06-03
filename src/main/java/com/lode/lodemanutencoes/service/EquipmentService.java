@@ -1,5 +1,6 @@
 package com.lode.lodemanutencoes.service;
 
+import com.lode.lodemanutencoes.exception.EquipmentNotFoundException;
 import com.lode.lodemanutencoes.model.Equipment;
 import com.lode.lodemanutencoes.repository.EquipmentRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class EquipmentService {
 
     public Equipment findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Equipment id " + id + " not found."));
+                .orElseThrow(() -> new EquipmentNotFoundException(id));
     }
 
     public Equipment save(Equipment equipment) {
@@ -34,8 +35,8 @@ public class EquipmentService {
         Equipment registeredEquipment = findById(id);
         registeredEquipment.setName(data.getName());
         registeredEquipment.setType(data.getType());
-        registeredEquipment.setInstallationDate(data.getInstallationDate());
         registeredEquipment.setStatus(data.getStatus());
+        registeredEquipment.setInstallationDate(data.getInstallationDate());
         return repository.save(registeredEquipment);
     }
 
